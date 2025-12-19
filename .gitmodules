@@ -4,6 +4,12 @@
 [submodule "lib/openzeppelin-contracts"]
 	path = lib/openzeppelin-contracts
 	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "lib/uniswap-v2-core"]
+	path = lib/uniswap-v2-core
+	url = https://github.com/Uniswap/v2-core
+[submodule "lib/uniswap-v2-periphery"]
+	path = lib/uniswap-v2-periphery
+	url = https://github.com/Uniswap/v2-periphery
 [submodule "lib/solidity-lib"]
 	path = lib/solidity-lib
 	url = https://github.com/uniswap/solidity-lib

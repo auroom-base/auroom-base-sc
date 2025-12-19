@@ -1,0 +1,25 @@
+{
+  "chainId": 5003,
+  "network": "mantle-sepolia",
+  "timestamp": 1734496379,
+  "deployer": "0x742812a2Ff08b76f968dffA7ca6892A428cAeBb1",
+  "contracts": {
+    "MockIDRX": "0x6EC7D79792D4D73eb711d36aB5b5f24014f18d05",
+    "MockUSDC": "0x96ABff3a2668B811371d7d763f06B3832CEdf38d",
+    "IdentityRegistry": "0x620870d419F6aFca8AFed5B516619aa50900cadc",
+    "XAUT": "0x1d6f37f76E2AB1cf9A242a34082eDEc163503A78"
+  },
+  "status": {
+    "MockIDRX": "deployed",
+    "MockUSDC": "deployed",
+    "IdentityRegistry": "deployed",
+    "XAUT": "deployed",
+    "GoldVault": "pending - needs Uniswap Router",
+    "SwapRouter": "pending - needs Uniswap Router"
+  },
+  "notes": {
+    "deployment_method": "forge + cast",
+    "network_rpc": "https://rpc.sepolia.mantle.xyz",
+    "explorer": "https://sepolia.mantlescan.xyz"
+  }
+}
