@@ -18,7 +18,7 @@ fi
 IDRX="0x6EC7D79792D4D73eb711d36aB5b5f24014f18d05"
 USDC="0x96ABff3a2668B811371d7d763f06B3832CEdf38d"
 XAUT="0x1d6f37f76E2AB1cf9A242a34082eDEc163503A78"
-ROUTER="0xF01D09A6CF3938d59326126174bD1b32FB47d8F5"
+ROUTER="0x54166b2C5e09f16c3c1D705FfB4eb29a069000A9"  # Router V2
 
 # Parse arguments
 FROM_TOKEN_TYPE=${1:-idrx}
@@ -83,11 +83,25 @@ echo "Swap: $AMOUNT $FROM_NAME → $TO_NAME"
 echo ""
 
 # Build path array
-PATH_ARRAY="[$FROM_TOKEN,$TO_TOKEN]"
-
-echo "Getting quote from router..."
-echo "Path: $FROM_NAME → $TO_NAME"
-echo ""
+# Check if we need multi-hop (XAUT <-> IDRX requires USDC as intermediary)
+if [[ ("$FROM_TOKEN" == "$XAUT" && "$TO_TOKEN" == "$IDRX") || \
+      ("$FROM_TOKEN" == "$IDRX" && "$TO_TOKEN" == "$XAUT") ]]; then
+    # Multi-hop path through USDC
+    PATH_ARRAY="[$FROM_TOKEN,$USDC,$TO_TOKEN]"
+    echo "⚠️  No direct pair exists. Using multi-hop path:"
+    if [ "$FROM_TOKEN" == "$XAUT" ]; then
+        echo "   XAUT → USDC → IDRX"
+    else
+        echo "   IDRX → USDC → XAUT"
+    fi
+    echo ""
+else
+    # Direct swap
+    PATH_ARRAY="[$FROM_TOKEN,$TO_TOKEN]"
+    echo "Getting quote from router..."
+    echo "Path: $FROM_NAME → $TO_NAME"
+    echo ""
+fi
 
 # Get quote with full output for debugging
 RESULT=$(cast call $ROUTER \
@@ -106,11 +120,12 @@ fi
 echo "Raw result: $RESULT"
 echo ""
 
-# Parse result - remove brackets and get second value
-# Result format: [inputAmount, outputAmount]
-CLEAN_RESULT=$(echo $RESULT | tr -d '[]' | tr ',' ' ')
-INPUT_RETURNED=$(echo $CLEAN_RESULT | awk '{print $1}')
-OUTPUT_RAW=$(echo $CLEAN_RESULT | awk '{print $2}')
+# Parse result - remove brackets and get last value
+# Result format: [inputAmount, outputAmount] for 2-hop
+#            or: [inputAmount, intermediateAmount, outputAmount] for 3-hop
+# Each value may have scientific notation like: "60424 [6.042e4]"
+CLEAN_RESULT=$(echo $RESULT | tr -d '[]' | tr ',' '\n')
+OUTPUT_RAW=$(echo "$CLEAN_RESULT" | tail -1 | awk '{print $1}')
 
 echo "Parsed output (raw): $OUTPUT_RAW"
 

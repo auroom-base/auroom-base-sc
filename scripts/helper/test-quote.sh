@@ -17,7 +17,7 @@ fi
 IDRX="0x6EC7D79792D4D73eb711d36aB5b5f24014f18d05"
 USDC="0x96ABff3a2668B811371d7d763f06B3832CEdf38d"
 XAUT="0x1d6f37f76E2AB1cf9A242a34082eDEc163503A78"
-ROUTER="0xF01D09A6CF3938d59326126174bD1b32FB47d8F5"
+ROUTER="0x54166b2C5e09f16c3c1D705FfB4eb29a069000A9"  # Router V2
 
 echo "========================================="
 echo "🔍 DEX Quote Simulator"
@@ -124,7 +124,21 @@ echo "Router: $ROUTER"
 echo ""
 
 # Build path array
-PATH_ARRAY="[$INPUT_TOKEN,$OUTPUT_TOKEN]"
+# Check if we need multi-hop (XAUT <-> IDRX requires USDC as intermediary)
+if [[ ("$INPUT_TOKEN" == "$XAUT" && "$OUTPUT_TOKEN" == "$IDRX") || \
+      ("$INPUT_TOKEN" == "$IDRX" && "$OUTPUT_TOKEN" == "$XAUT") ]]; then
+    # Multi-hop path through USDC
+    PATH_ARRAY="[$INPUT_TOKEN,$USDC,$OUTPUT_TOKEN]"
+    echo "⚠️  No direct pair exists. Using multi-hop path:"
+    if [ "$INPUT_TOKEN" == "$XAUT" ]; then
+        echo "   XAUT → USDC → IDRX"
+    else
+        echo "   IDRX → USDC → XAUT"
+    fi
+else
+    # Direct swap
+    PATH_ARRAY="[$INPUT_TOKEN,$OUTPUT_TOKEN]"
+fi
 
 echo "Fetching quote..."
 echo ""
@@ -136,9 +150,9 @@ RESULT=$(cast call $ROUTER \
   "$PATH_ARRAY" \
   --rpc-url $MANTLE_TESTNET_RPC)
 
-# Parse result - getAmountsOut returns array [inputAmount, outputAmount]
-# Extract the second value (output amount)
-OUTPUT_RAW=$(echo $RESULT | sed 's/\[//g' | sed 's/\]//g' | awk '{print $2}' | tr -d ',')
+# Parse result - getAmountsOut returns array [inputAmount, intermediateAmount (if multi-hop), outputAmount]
+# Extract the LAST value (output amount)
+OUTPUT_RAW=$(echo $RESULT | sed 's/\[//g' | sed 's/\]//g' | awk '{print $NF}' | tr -d ',')
 
 # Convert to decimal if it's in hex
 if [[ $OUTPUT_RAW == 0x* ]]; then

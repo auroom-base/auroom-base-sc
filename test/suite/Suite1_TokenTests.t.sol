@@ -41,8 +41,8 @@ contract Suite1_TokenTests is Test {
     address constant XAUT_USDC_PAIR = 0xc2da5178F53f45f604A275a3934979944eB15602;
 
     // Core Protocol
-    address constant GOLD_VAULT = 0xa039F4E162F8A8C5d01C57b78daDa8dcc976657a;
-    address constant SWAP_ROUTER = 0x2737e491775055F7218b40A11DE10dA855968277;
+    address constant GOLD_VAULT = 0xd92cE2F13509840B1203D35218227559E64fbED0; // Redeployed with Router V2
+    address constant SWAP_ROUTER = 0xF948Dd812E7fA072367848ec3D198cc61488b1b9; // Redeployed with Router V2
 
     // Network Configuration
     uint256 constant MANTLE_SEPOLIA_CHAIN_ID = 5003;
