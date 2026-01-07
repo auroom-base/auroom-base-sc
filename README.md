@@ -8,11 +8,11 @@
 
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.30-363636?style=flat-square&logo=solidity)](https://docs.soliditylang.org/)
 [![Foundry](https://img.shields.io/badge/Foundry-1.5.0-orange?style=flat-square)](https://getfoundry.sh/)
-[![Mantle](https://img.shields.io/badge/Mantle-Sepolia-blue?style=flat-square)](https://www.mantle.xyz/)
+[![Lisk](https://img.shields.io/badge/Lisk-Sepolia-blue?style=flat-square)](https://www.lisk.com/)
 [![Tests](https://img.shields.io/badge/Tests-106%2F106%20Passing-brightgreen?style=flat-square)](./test)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](./LICENSE)
 
-[Live Demo](https://auroom-testnet.vercel.app) • [Frontend Repo](https://github.com/YohanesVito/auroom-fe) • [Documentation](#-documentation)
+[Live Demo](https://auroom-testnet.vercel.app) • [Frontend Repo](https://github.com/AuRoom-Lisk/auroom-lisk-fe) • [Backend Repo](https://github.com/AuRoom-Lisk/auroom-lisk-be) • [Documentation](#-documentation)
 
 </div>
 
@@ -20,7 +20,7 @@
 
 ## 📖 Overview
 
-**AuRoom** is a Real World Asset (RWA) protocol that enables Indonesian users to convert their local currency (IDRX) into tokenized gold (XAUT) and earn yield through an ERC-4626 vault system.
+**AuRoom** is a Real World Asset (RWA) protocol that enables Indonesian users to access instant cash loans in IDRX (Indonesian Rupiah stablecoin) using tokenized gold (XAUT) as collateral, with integrated fiat redemption to convert IDRX back to Indonesian Rupiah (IDR).
 
 ### The Problem
 
@@ -52,11 +52,11 @@
 ## ✨ Key Features
 
 - 🔄 **Seamless Swap**: IDRX → USDC → XAUT in one transaction
-- 🏦 **ERC-4626 Vault**: Industry-standard yield-bearing vault
-- 📈 **Yield Generation**: Earn from liquidity provision fees (0.3%)
+- 💰 **Cash Loan**: Borrow IDRX (Indonesian Rupiah) using XAUT (gold) as collateral
+- 🏦 **Fiat Redemption**: Convert IDRX to IDR (Indonesian fiat) via integrated IDRX.org API
 - 🪪 **KYC Compliance**: On-chain identity verification (ERC-3643 inspired)
-- ⚡ **Low Fees**: Built on Mantle L2 for minimal gas costs
-- 🔒 **Security**: Slippage protection, deadline checks, access control
+- ⚡ **Low Fees**: Built on Lisk L2 for minimal gas costs (0.5% borrow fee)
+- 🔒 **Security**: Slippage protection, LTV limits, access control
 
 ---
 
@@ -71,16 +71,16 @@
               │              │              │
               ▼              ▼              ▼
        ┌──────────┐   ┌──────────┐   ┌──────────┐
-       │   Swap   │   │  Deposit │   │  Redeem  │
-       │IDRX→XAUT │   │XAUT→gXAUT│   │gXAUT→XAUT│
+       │   Swap   │   │  Borrow  │   │  Redeem  │
+       │IDRX→XAUT │   │XAUT→IDRX │   │IDRX→IDR  │
        └────┬─────┘   └────┬─────┘   └────┬─────┘
             │              │              │
             ▼              ▼              ▼
-     ┌────────────┐  ┌───────────┐  ┌───────────┐
-     │ SwapRouter │  │ GoldVault │  │ GoldVault │
-     │            │  │ (ERC-4626)│  │ (ERC-4626)│
-     └─────┬──────┘  └───────────┘  └───────────┘
-           │
+     ┌────────────┐ ┌──────────────┐ ┌─────────┐
+     │ SwapRouter │ │ Borrowing    │ │ IDRX    │
+     │            │ │ ProtocolV2   │ │ Burn +  │
+     └─────┬──────┘ └──────────────┘ │ API     │
+           │                          └─────────┘
            ▼
     ┌─────────────┐
     │ Uniswap V2  │
@@ -95,70 +95,93 @@
 └─────────┘ └─────────┘
 ```
 
-### How Yield is Generated
+### How Cash Loan Works
 
 ```
-User deposits XAUT
+User deposits XAUT collateral
         │
         ▼
-   ┌─────────┐
-   │GoldVault│ ──→ Provides liquidity to XAUT/USDC pool
-   └─────────┘
+   ┌──────────────────┐
+   │BorrowingProtocol │ ──→ Transfers IDRX from treasury
+   └──────────────────┘
         │
         ▼
-   Trading Fees (0.3% per swap)
+   User receives IDRX (minus 0.5% fee)
         │
         ▼
-   Fees accumulate in vault
+   User can redeem IDRX to Indonesian Rupiah
         │
         ▼
-   Share price increases
-        │
-        ▼
-   User redeems more XAUT than deposited = PROFIT
+   To repay: User returns IDRX + withdraws XAUT collateral
 ```
 
 ---
 
 ## 📜 Smart Contracts
 
-### Deployed Addresses (Mantle Sepolia)
+### Deployed Addresses (Lisk Sepolia)
 
 | Contract | Address | Description |
 |----------|---------|-------------|
-| **IDRX** | `0x6EC7D79792D4D73eb711d36aB5b5f24014f18d05` | Indonesian Rupiah Stablecoin (Mock) |
-| **USDC** | `0x96ABff3a2668B811371d7d763f06B3832CEdf38d` | USD Coin (Mock) |
-| **XAUT** | `0x1d6f37f76E2AB1cf9A242a34082eDEc163503A78` | Tokenized Gold (Mock) |
-| **IdentityRegistry** | `0x620870d419F6aFca8AFed5B516619aa50900cadc` | KYC Verification |
-| **UniswapV2Factory** | `0x8950d0D71a23085C514350df2682c3f6F1D7aBFE` | DEX Factory |
-| **UniswapV2Router** | `0x54166b2C5e09f16c3c1D705FfB4eb29a069000A9` | DEX Router |
-| **IDRX/USDC Pair** | `0xD3FF8e1C2821745513Ef83f3551668A7ce791Fe2` | Liquidity Pool |
-| **XAUT/USDC Pair** | `0xc2da5178F53f45f604A275a3934979944eB15602` | Liquidity Pool |
-| **SwapRouter** | `0xF948Dd812E7fA072367848ec3D198cc61488b1b9` | IDRX↔XAUT Router |
-| **GoldVault** | `0xd92cE2F13509840B1203D35218227559E64fbED0` | ERC-4626 Yield Vault |
+| **MockIDRX** | `0xe0f7ea8fb1a7e9e9f8838d0e24b7a0f750c68d40` | Indonesian Rupiah Stablecoin (Mock) |
+| **MockUSDC** | `0xA8F2b8180caFC670f4a24114FDB9c50361038857` | USD Coin (Mock) |
+| **XAUT** | `0xDb198BEaccC55934062Be9AAEdce332c40A1f1Ed` | Tokenized Gold (Mock) |
+| **IdentityRegistry** | `0x799fe52FA871EB8e4420fEc9d1b81c6297e712a5` | KYC Verification |
+| **UniswapV2Factory** | `0x96abff3a2668b811371d7d763f06b3832cedf38d` | DEX Factory |
+| **UniswapV2Router** | `0x6036306f417d720228ab939650e8acbe948d2d2b` | DEX Router |
+| **IDRX/USDC Pair** | `0xB0ea91604C8B98205cbDd5c3F7d8DB006404515F` | Liquidity Pool |
+| **XAUT/USDC Pair** | `0xBdfD81D4e79c0cC949BB52941BCd30Ed8b3B4112` | Liquidity Pool |
+| **SwapRouter** | `0x8cDE80170b877a51a17323628BA6221F6F023505` | IDRX↔XAUT Router |
+| **BorrowingProtocolV2** | `0x8c49cF7B7CCE0fBffADFe44F764fe6c5F2df82F9` | Cash Loan Protocol |
 
 ### Contract Overview
 
 ```
 src/
-├── GoldVault.sol          # ERC-4626 yield-bearing vault for XAUT
-├── SwapRouter.sol         # Routes swaps: IDRX ↔ USDC ↔ XAUT
-├── IdentityRegistry.sol   # On-chain KYC management
-├── XAUT.sol               # Tokenized gold with transfer restrictions
-├── MockIDRX.sol           # Mock Indonesian Rupiah stablecoin
-├── MockUSDC.sol           # Mock USDC for testing
-├── WMNT.sol               # Wrapped Mantle token
+├── BorrowingProtocolV2.sol # Cash loan protocol (XAUT collateral → IDRX loan)
+├── SwapRouter.sol          # Routes swaps: IDRX ↔ USDC ↔ XAUT
+├── IdentityRegistry.sol    # On-chain KYC management
+├── XAUT.sol                # Tokenized gold with transfer restrictions
+├── MockIDRX.sol            # Mock Indonesian Rupiah stablecoin (with burn)
+├── MockUSDC.sol            # Mock USDC for testing
 └── interfaces/
     └── IIdentityRegistry.sol
 ```
 
 ### Key Contract Features
 
-#### GoldVault (ERC-4626)
-- Deposit XAUT, receive gXAUT shares
-- Share price increases as yield accumulates
-- No lock-up period - withdraw anytime
-- Only verified users can deposit/withdraw
+#### BorrowingProtocolV2 (Cash Loan)
+- **Instant IDRX loans** using XAUT collateral
+- **Flexible LTV ratios** (up to 75% safe limit)
+- **0.5% borrow fee** on each loan
+- **Automatic LTV monitoring** for user safety
+- **Repay and withdraw anytime** - no lock-up period
+- **Only verified users** can borrow (KYC required)
+- **Treasury-backed** lending from pre-funded IDRX pool
+
+**Key Functions**:
+- `depositAndBorrow(collateral, borrowAmount)` - One-click collateral deposit + borrow
+- `repayAndWithdraw(repayAmount, withdrawAmount)` - One-click repay + withdraw collateral
+- `getLTV(user)` - Check current loan-to-value ratio
+- `getMaxBorrow(collateralAmount)` - Calculate maximum borrowable amount
+
+**Safety Parameters**:
+- MAX_LTV: 75% (safe borrowing limit)
+- WARNING_LTV: 80% (warning zone)
+- LIQUIDATION_LTV: 90% (liquidation threshold)
+
+---
+
+#### MockIDRX (Enhanced ERC20)
+- Standard ERC20 stablecoin representing Indonesian Rupiah
+- **Burn functions** for fiat redemption flow:
+  - `burn(amount)` - Standard burn
+  - `burnFrom(account, amount)` - Burn with allowance
+  - `burnWithAccountNumber(amount, accountNumber)` - **Critical for redeem flow**
+- Emits `BurnWithAccountNumber` event for backend integration
+- Compatible with IDRX.org API for fiat conversion
+
+---
 
 #### SwapRouter
 - Single transaction: IDRX → USDC → XAUT (or reverse)
@@ -173,40 +196,6 @@ src/
 - Required for XAUT transfers and vault operations
 
 ---
-
-## 🧪 Testing
-
-### Test Results: 106/106 Passing ✅
-
-```bash
-forge test
-```
-
-```
-[⠊] Compiling...
-[⠒] Compiling 1 files with Solc 0.8.30
-
-Ran 106 tests for 7 test suites
-
-✅ GoldVaultTest - 22 tests passed
-✅ IdentityRegistryTest - 15 tests passed  
-✅ XAUTTest - 14 tests passed
-✅ SwapRouterTest - 18 tests passed
-✅ IntegrationTest - 19 tests passed
-✅ DEXTest - 10 tests passed
-✅ SecurityTest - 8 tests passed
-
-Total: 106 passed, 0 failed, 0 skipped
-```
-
-### Test Coverage
-
-| Category | Tests | Coverage |
-|----------|-------|----------|
-| Unit Tests | 69 | Core contract functions |
-| Integration Tests | 19 | Multi-contract flows |
-| Security Tests | 8 | Access control, edge cases |
-| DEX Tests | 10 | Liquidity, swaps |
 
 ### Run Specific Tests
 
@@ -262,21 +251,69 @@ Create a `.env` file:
 PRIVATE_KEY=your_private_key_here
 
 # RPC URLs
-MANTLE_TESTNET_RPC=https://rpc.sepolia.mantle.xyz
-MANTLE_MAINNET_RPC=https://rpc.mantle.xyz
+LISK_TESTNET_RPC=https://rpc.sepolia-api.lisk.com
+LISK_MAINNET_RPC=https://rpc.api.lisk.com
 
-# Explorer API (for verification)
-MANTLE_API_KEY=your_api_key_here
+# Deployer address
+DEPLOYER=your_deployer_address
+
+# Contract addresses (will be filled after deployment)
+MOCK_IDRX=
+MOCK_USDC=
+XAUT=
+IDENTITY_REGISTRY=
+UNISWAP_V2_FACTORY=
+UNISWAP_V2_ROUTER=
+BORROWING_PROTOCOL_V2=
+SWAP_ROUTER=
+
+# Treasury
+TREASURY=your_treasury_address
 ```
 
 ### Deployment
 
 ```bash
-# Deploy to Mantle Sepolia
-forge script script/Deploy.s.sol --rpc-url $MANTLE_TESTNET_RPC --broadcast
+# Deploy to Lisk Sepolia
+forge script script/lisk/Deploy.s.sol \
+  --rpc-url $LISK_TESTNET_RPC \
+  --broadcast \
+  --legacy
 
-# Verify contracts
-forge verify-contract <CONTRACT_ADDRESS> <CONTRACT_NAME> --chain mantle-sepolia
+# Verify contracts on Blockscout
+forge verify-contract <CONTRACT_ADDRESS> <CONTRACT_NAME> \
+  --chain-id 4202 \
+  --verifier blockscout \
+  --verifier-url https://sepolia-blockscout.lisk.com/api
+```
+
+### Post-Deployment Setup
+
+**Critical**: After deploying BorrowingProtocolV2, register it in IdentityRegistry:
+
+```bash
+# Register BorrowingProtocolV2 to enable XAUT transfers
+cast send $IDENTITY_REGISTRY \
+  "registerIdentity(address)" \
+  $BORROWING_PROTOCOL_V2 \
+  --rpc-url $LISK_TESTNET_RPC \
+  --private-key $PRIVATE_KEY
+
+# Mint IDRX to Treasury
+cast send $MOCK_IDRX \
+  "publicMint(address,uint256)" \
+  $TREASURY \
+  100000000000000 \
+  --rpc-url $LISK_TESTNET_RPC \
+  --private-key $PRIVATE_KEY
+
+# Approve BorrowingProtocol to spend treasury IDRX
+cast send $MOCK_IDRX \
+  "approve(address,uint256)" \
+  $BORROWING_PROTOCOL_V2 \
+  $(cast max-uint256) \
+  --rpc-url $LISK_TESTNET_RPC \
+  --private-key $PRIVATE_KEY
 ```
 
 ---
@@ -365,11 +402,14 @@ Current status:
 
 - [x] Core contracts development
 - [x] Comprehensive test suite
-- [x] Mantle Sepolia deployment
+- [x] Lisk Sepolia deployment
+- [x] BorrowingProtocolV2 (Cash Loan) implementation
+- [x] IDRX burn functions for redeem flow
 - [x] Frontend integration
+- [ ] Backend API for IDRX redemption (in progress)
+- [ ] Frontend redeem modal integration
 - [ ] Security audit
 - [ ] Mainnet deployment
-- [ ] Additional yield strategies
 - [ ] Multi-chain expansion
 
 ---
@@ -394,8 +434,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **Mantle Network** - L2 Infrastructure
-- **IDRX** - Indonesian Rupiah Stablecoin inspiration
+- **Lisk Network** - L2 Infrastructure
+- **IDRX.org** - Indonesian Rupiah Stablecoin & API Integration
 - **Tether Gold (XAUT)** - Tokenized gold concept
 - **OpenZeppelin** - Secure contract libraries
 - **Uniswap** - AMM protocol
@@ -406,7 +446,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Apple Bites** - [@YohanesVito](https://github.com/YohanesVito)
 
-Project Link: [https://github.com/YohanesVito/auroom-sc](https://github.com/YohanesVito/auroom-sc)
+Project Links:
+- Smart Contracts: [https://github.com/AuRoom-Lisk/auroom-lisk-sc](https://github.com/AuRoom-Lisk/auroom-lisk-sc)
+- Frontend: [https://github.com/AuRoom-Lisk/auroom-lisk-fe](https://github.com/AuRoom-Lisk/auroom-lisk-fe)
+- Backend: [https://github.com/AuRoom-Lisk/auroom-lisk-be](https://github.com/AuRoom-Lisk/auroom-lisk-be)
 
 ---
 

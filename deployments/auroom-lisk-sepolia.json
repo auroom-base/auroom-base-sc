@@ -5,25 +5,25 @@
     "lastUpdated": 1735876898,
     "deployer": "0x742812a2Ff08b76f968dffA7ca6892A428cAeBb1",
     "contracts": {
-        "MockIDRX": "0xCd88C2886A1958BA36238A070e71B51CF930b44d",
+        "MockIDRX": "0xe0f7ea8fb1a7e9e9f8838d0e24b7a0f750c68d40",
         "MockUSDC": "0xA8F2b8180caFC670f4a24114FDB9c50361038857",
         "IdentityRegistry": "0x799fe52FA871EB8e4420fEc9d1b81c6297e712a5",
         "XAUT": "0xDb198BEaccC55934062Be9AAEdce332c40A1f1Ed",
         "WMNT": "0x6ec7d79792d4d73eb711d36ab5b5f24014f18d05",
         "UniswapV2Factory": "0x96abff3a2668b811371d7d763f06b3832cedf38d",
         "UniswapV2Router02": "0x6036306f417d720228ab939650e8acbe948d2d2b",
-        "PairIDRX_USDC": "0x478FA3880F8474E50ECEDDA71a1D56d5560b1E3f",
+        "PairIDRX_USDC": "0xB0ea91604C8B98205cbDd5c3F7d8DB006404515F",
         "PairXAUT_USDC": "0xBdfD81D4e79c0cC949BB52941BCd30Ed8b3B4112",
         "SwapRouter": "0x8cDE80170b877a51a17323628BA6221F6F023505",
-        "BorrowingProtocolV2": "0xA89448b60C4771Fe0C38ba29000AbFdB85E1f6aF"
+        "BorrowingProtocolV2": "0x8c49cF7B7CCE0fBffADFe44F764fe6c5F2df82F9"
     },
     "dex": {
         "type": "Mock Uniswap V2",
         "version": "Solidity 0.8.30",
         "pairs": {
             "IDRX/USDC": {
-                "address": "0x478FA3880F8474E50ECEDDA71a1D56d5560b1E3f",
-                "token0": "0xCd88C2886A1958BA36238A070e71B51CF930b44d",
+                "address": "0xB0ea91604C8B98205cbDd5c3F7d8DB006404515F",
+                "token0": "0xe0f7ea8fb1a7e9e9f8838d0e24b7a0f750c68d40",
                 "token1": "0xA8F2b8180caFC670f4a24114FDB9c50361038857",
                 "reserves": {
                     "IDRX": "1000000000",
@@ -44,7 +44,7 @@
         }
     },
     "borrowingProtocol": {
-        "address": "0xA89448b60C4771Fe0C38ba29000AbFdB85E1f6aF",
+        "address": "0x8c49cF7B7CCE0fBffADFe44F764fe6c5F2df82F9",
         "version": "V2",
         "parameters": {
             "MAX_LTV": 7500,
