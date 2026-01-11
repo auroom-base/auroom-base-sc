@@ -31,7 +31,7 @@ contract NetworkInfo is Script {
         console.log("Deployer Information");
         console.log("==============================================");
         console.log("Address:", deployer);
-        console.log("Balance:", deployer.balance / 1e18, "MNT");
+        console.log("Balance:", deployer.balance / 1e18, "ETH");
         console.log("Nonce:", vm.getNonce(deployer));
         console.log("==============================================\n");
 
@@ -61,10 +61,10 @@ contract NetworkInfo is Script {
         uint256 mockUSDCGas = 1_500_000;
         uint256 identityRegistryGas = 800_000;
         uint256 xautGas = 2_000_000;
-        uint256 goldVaultGas = 4_000_000;
+        uint256 borrowingProtocolGas = 4_000_000;
         uint256 swapRouterGas = 1_500_000;
 
-        uint256 totalGas = mockIDRXGas + mockUSDCGas + identityRegistryGas + xautGas + goldVaultGas + swapRouterGas;
+        uint256 totalGas = mockIDRXGas + mockUSDCGas + identityRegistryGas + xautGas + borrowingProtocolGas + swapRouterGas;
 
         uint256 estimatedCost = totalGas * gasPrice;
         uint256 estimatedCostWithBuffer = (estimatedCost * 120) / 100; // 20% buffer
@@ -73,22 +73,22 @@ contract NetworkInfo is Script {
         console.log("MockUSDC:          ~", mockUSDCGas, "gas");
         console.log("IdentityRegistry:  ~", identityRegistryGas, "gas");
         console.log("XAUT:              ~", xautGas, "gas");
-        console.log("GoldVault:         ~", goldVaultGas, "gas");
+        console.log("BorrowingProtocol: ~", borrowingProtocolGas, "gas");
         console.log("SwapRouter:        ~", swapRouterGas, "gas");
         console.log("---");
         console.log("Total Gas:         ~", totalGas, "gas");
-        console.log("Estimated Cost:     ", estimatedCost / 1e18, "MNT");
-        console.log("With 20% Buffer:    ", estimatedCostWithBuffer / 1e18, "MNT");
-        console.log("Your Balance:       ", deployer.balance / 1e18, "MNT");
+        console.log("Estimated Cost:     ", estimatedCost / 1e18, "ETH");
+        console.log("With 20% Buffer:    ", estimatedCostWithBuffer / 1e18, "ETH");
+        console.log("Your Balance:       ", deployer.balance / 1e18, "ETH");
 
         if (deployer.balance < estimatedCostWithBuffer) {
             console.log("");
             console.log("WARNING: Insufficient balance!");
-            console.log("You may need more MNT for deployment");
-            console.log("Get testnet MNT from: https://faucet.testnet.mantle.xyz/");
+            console.log("You may need more ETH for deployment");
+            console.log("Get testnet ETH from: https://faucet.quicknode.com/base/sepolia");
         } else {
             console.log("");
-            console.log("Balance OK: Sufficient MNT for deployment");
+            console.log("Balance OK: Sufficient ETH for deployment");
         }
 
         console.log("==============================================\n");
@@ -128,10 +128,10 @@ contract NetworkInfo is Script {
         }
 
         // Check 3: Network is correct
-        if (block.chainid == 5003) {
-            console.log("PASS: Connected to Mantle Testnet (Chain ID: 5003)");
-        } else if (block.chainid == 5000) {
-            console.log("INFO: Connected to Mantle Mainnet (Chain ID: 5000)");
+        if (block.chainid == 84532) {
+            console.log("PASS: Connected to Base Sepolia (Chain ID: 84532)");
+        } else if (block.chainid == 8453) {
+            console.log("INFO: Connected to Base Mainnet (Chain ID: 8453)");
         } else if (block.chainid == 31337) {
             console.log("INFO: Connected to Localhost (Chain ID: 31337)");
         } else {

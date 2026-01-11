@@ -13,19 +13,17 @@ import "./MockUniswapV2Pair.sol";
  */
 contract MockUniswapV2Router02 is IUniswapV2Router02 {
     address private immutable _factory;
-    address private immutable _WETH;
 
-    constructor(address factory_, address WETH_) {
+    constructor(address factory_) {
         _factory = factory_;
-        _WETH = WETH_;
     }
 
     function factory() external view override returns (address) {
         return _factory;
     }
 
-    function WETH() external view override returns (address) {
-        return _WETH;
+    function WETH() external pure override returns (address) {
+        return address(0); // Not used for ERC20-only swaps
     }
 
     function addLiquidity(

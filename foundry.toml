@@ -46,13 +46,14 @@ fuzz = { runs = 256 }
 
 # RPC endpoints
 [rpc_endpoints]
-mantle_testnet = "${MANTLE_TESTNET_RPC}"
-mantle_mainnet = "${MANTLE_MAINNET_RPC}"
+base_sepolia = "${BASE_SEPOLIA_RPC}"
+base_mainnet = "${BASE_MAINNET_RPC}"
 localhost = "http://localhost:8545"
 
 # Etherscan verification
 [etherscan]
-mantle_testnet = { key = "${MANTLE_API_KEY}", url = "https://explorer.testnet.mantle.xyz/api" }
-mantle_mainnet = { key = "${MANTLE_API_KEY}", url = "https://explorer.mantle.xyz/api" }
+base_sepolia = { key = "${BASESCAN_API_KEY}", url = "https://api-sepolia.basescan.org/api" }
+base_mainnet = { key = "${BASESCAN_API_KEY}", url = "https://api.basescan.org/api" }
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+

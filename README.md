@@ -8,11 +8,11 @@
 
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.30-363636?style=flat-square&logo=solidity)](https://docs.soliditylang.org/)
 [![Foundry](https://img.shields.io/badge/Foundry-1.5.0-orange?style=flat-square)](https://getfoundry.sh/)
-[![Lisk](https://img.shields.io/badge/Lisk-Sepolia-blue?style=flat-square)](https://www.lisk.com/)
+[![Base](https://img.shields.io/badge/Base-Sepolia-blue?style=flat-square)](https://base.org/)
 [![Tests](https://img.shields.io/badge/Tests-106%2F106%20Passing-brightgreen?style=flat-square)](./test)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](./LICENSE)
 
-[Live Demo](https://auroom-testnet.vercel.app) • [Frontend Repo](https://github.com/AuRoom-Lisk/auroom-lisk-fe) • [Backend Repo](https://github.com/AuRoom-Lisk/auroom-lisk-be) • [Documentation](#-documentation)
+[Live Demo](https://auroom-testnet.vercel.app) • [Frontend Repo](https://github.com/AuRoom-Base/auroom-base-fe) • [Backend Repo](https://github.com/AuRoom-Base/auroom-base-be) • [Documentation](#-documentation)
 
 </div>
 
@@ -55,7 +55,7 @@
 - 💰 **Cash Loan**: Borrow IDRX (Indonesian Rupiah) using XAUT (gold) as collateral
 - 🏦 **Fiat Redemption**: Convert IDRX to IDR (Indonesian fiat) via integrated IDRX.org API
 - 🪪 **KYC Compliance**: On-chain identity verification (ERC-3643 inspired)
-- ⚡ **Low Fees**: Built on Lisk L2 for minimal gas costs (0.5% borrow fee)
+- ⚡ **Low Fees**: Built on Base L2 for minimal gas costs (0.5% borrow fee)
 - 🔒 **Security**: Slippage protection, LTV limits, access control
 
 ---
@@ -119,20 +119,18 @@ User deposits XAUT collateral
 
 ## 📜 Smart Contracts
 
-### Deployed Addresses (Lisk Sepolia)
+### Deployed Addresses (Base Sepolia)
 
 | Contract | Address | Description |
 |----------|---------|-------------|
-| **MockIDRX** | `0xe0f7ea8fb1a7e9e9f8838d0e24b7a0f750c68d40` | Indonesian Rupiah Stablecoin (Mock) |
-| **MockUSDC** | `0xA8F2b8180caFC670f4a24114FDB9c50361038857` | USD Coin (Mock) |
-| **XAUT** | `0xDb198BEaccC55934062Be9AAEdce332c40A1f1Ed` | Tokenized Gold (Mock) |
-| **IdentityRegistry** | `0x799fe52FA871EB8e4420fEc9d1b81c6297e712a5` | KYC Verification |
-| **UniswapV2Factory** | `0x96abff3a2668b811371d7d763f06b3832cedf38d` | DEX Factory |
-| **UniswapV2Router** | `0x6036306f417d720228ab939650e8acbe948d2d2b` | DEX Router |
-| **IDRX/USDC Pair** | `0xB0ea91604C8B98205cbDd5c3F7d8DB006404515F` | Liquidity Pool |
-| **XAUT/USDC Pair** | `0xBdfD81D4e79c0cC949BB52941BCd30Ed8b3B4112` | Liquidity Pool |
-| **SwapRouter** | `0x8cDE80170b877a51a17323628BA6221F6F023505` | IDRX↔XAUT Router |
-| **BorrowingProtocolV2** | `0x8c49cF7B7CCE0fBffADFe44F764fe6c5F2df82F9` | Cash Loan Protocol |
+| **MockIDRX** | [`0x998ceb700e57f535873D189a6b1B7E2aA8C594EB`](https://sepolia.basescan.org/address/0x998ceb700e57f535873D189a6b1B7E2aA8C594EB) | Indonesian Rupiah Stablecoin (Mock) |
+| **MockUSDC** | [`0xCd88C2886A1958BA36238A070e71B51CF930b44d`](https://sepolia.basescan.org/address/0xCd88C2886A1958BA36238A070e71B51CF930b44d) | USD Coin (Mock) |
+| **XAUT** | [`0x56EeDF50c3C4B47Ca9762298B22Cb86468f834FC`](https://sepolia.basescan.org/address/0x56EeDF50c3C4B47Ca9762298B22Cb86468f834FC) | Tokenized Gold (Mock) |
+| **IdentityRegistry** | [`0xA8F2b8180caFC670f4a24114FDB9c50361038857`](https://sepolia.basescan.org/address/0xA8F2b8180caFC670f4a24114FDB9c50361038857) | KYC Verification |
+| **UniswapV2Factory** | [`0xDb198BEaccC55934062Be9AAEdce332c40A1f1Ed`](https://sepolia.basescan.org/address/0xDb198BEaccC55934062Be9AAEdce332c40A1f1Ed) | DEX Factory |
+| **UniswapV2Router** | [`0x620870d419F6aFca8AFed5B516619aa50900cadc`](https://sepolia.basescan.org/address/0x620870d419F6aFca8AFed5B516619aa50900cadc) | DEX Router |
+| **SwapRouter** | [`0x41c7215F0538200013F428732900bC581015c50e`](https://sepolia.basescan.org/address/0x41c7215F0538200013F428732900bC581015c50e) | IDRX↔XAUT Router |
+| **BorrowingProtocolV2** | [`0x3A1229F6D51940DBa65710F9F6ab0296FD56718B`](https://sepolia.basescan.org/address/0x3A1229F6D51940DBa65710F9F6ab0296FD56718B) | Cash Loan Protocol |
 
 ### Contract Overview
 
@@ -251,8 +249,8 @@ Create a `.env` file:
 PRIVATE_KEY=your_private_key_here
 
 # RPC URLs
-LISK_TESTNET_RPC=https://rpc.sepolia-api.lisk.com
-LISK_MAINNET_RPC=https://rpc.api.lisk.com
+BASE_SEPOLIA_RPC=https://sepolia.base.org
+BASE_MAINNET_RPC=https://mainnet.base.org
 
 # Deployer address
 DEPLOYER=your_deployer_address
@@ -262,58 +260,57 @@ MOCK_IDRX=
 MOCK_USDC=
 XAUT=
 IDENTITY_REGISTRY=
-UNISWAP_V2_FACTORY=
-UNISWAP_V2_ROUTER=
+UNISWAP_FACTORY=
+UNISWAP_ROUTER=
 BORROWING_PROTOCOL_V2=
 SWAP_ROUTER=
 
 # Treasury
 TREASURY=your_treasury_address
+
+# Block explorer API key
+BASESCAN_API_KEY=your_api_key_here
 ```
 
 ### Deployment
 
-```bash
-# Deploy to Lisk Sepolia
-forge script script/lisk/Deploy.s.sol \
-  --rpc-url $LISK_TESTNET_RPC \
-  --broadcast \
-  --legacy
+See `script/base/deployment/README.md` for detailed deployment instructions.
 
-# Verify contracts on Blockscout
+```bash
+# Deploy contracts to Base Sepolia (run in order)
+forge script script/base/deployment/Deploy01_MockIDRX.s.sol \
+  --rpc-url $BASE_SEPOLIA_RPC \
+  --broadcast \
+  --verify
+
+# ... continue with Deploy02 through Deploy09
+
+# Verify contracts on Basescan
 forge verify-contract <CONTRACT_ADDRESS> <CONTRACT_NAME> \
-  --chain-id 4202 \
+  --chain-id 84532 \
   --verifier blockscout \
-  --verifier-url https://sepolia-blockscout.lisk.com/api
+  --verifier-url https://base-sepolia.blockscout.com/api
 ```
 
 ### Post-Deployment Setup
 
-**Critical**: After deploying BorrowingProtocolV2, register it in IdentityRegistry:
+Run the post-deployment scripts in order:
 
 ```bash
-# Register BorrowingProtocolV2 to enable XAUT transfers
-cast send $IDENTITY_REGISTRY \
-  "registerIdentity(address)" \
-  $BORROWING_PROTOCOL_V2 \
-  --rpc-url $LISK_TESTNET_RPC \
-  --private-key $PRIVATE_KEY
+# 1. Register contracts in KYC
+forge script script/base/post-deployment/Setup01_RegisterKYC.s.sol \
+  --rpc-url $BASE_SEPOLIA_RPC \
+  --broadcast
 
-# Mint IDRX to Treasury
-cast send $MOCK_IDRX \
-  "publicMint(address,uint256)" \
-  $TREASURY \
-  100000000000000 \
-  --rpc-url $LISK_TESTNET_RPC \
-  --private-key $PRIVATE_KEY
+# 2. Mint IDRX to Treasury
+forge script script/base/post-deployment/Setup02_MintTreasury.s.sol \
+  --rpc-url $BASE_SEPOLIA_RPC \
+  --broadcast
 
-# Approve BorrowingProtocol to spend treasury IDRX
-cast send $MOCK_IDRX \
-  "approve(address,uint256)" \
-  $BORROWING_PROTOCOL_V2 \
-  $(cast max-uint256) \
-  --rpc-url $LISK_TESTNET_RPC \
-  --private-key $PRIVATE_KEY
+# 3. Approve Protocol to spend Treasury IDRX
+forge script script/base/post-deployment/Setup03_ApproveProtocol.s.sol \
+  --rpc-url $BASE_SEPOLIA_RPC \
+  --broadcast
 ```
 
 ---
@@ -434,7 +431,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **Lisk Network** - L2 Infrastructure
+- **Base Network** - L2 Infrastructure
 - **IDRX.org** - Indonesian Rupiah Stablecoin & API Integration
 - **Tether Gold (XAUT)** - Tokenized gold concept
 - **OpenZeppelin** - Secure contract libraries
@@ -447,15 +444,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Apple Bites** - [@YohanesVito](https://github.com/YohanesVito)
 
 Project Links:
-- Smart Contracts: [https://github.com/AuRoom-Lisk/auroom-lisk-sc](https://github.com/AuRoom-Lisk/auroom-lisk-sc)
-- Frontend: [https://github.com/AuRoom-Lisk/auroom-lisk-fe](https://github.com/AuRoom-Lisk/auroom-lisk-fe)
-- Backend: [https://github.com/AuRoom-Lisk/auroom-lisk-be](https://github.com/AuRoom-Lisk/auroom-lisk-be)
+- Smart Contracts: [https://github.com/YohanesVito/auroom-base-sc](https://github.com/YohanesVito/auroom-base-sc)
+- Frontend: [https://github.com/AuRoom-Base/auroom-base-fe](https://github.com/AuRoom-Base/auroom-base-fe)
+- Backend: [https://github.com/AuRoom-Base/auroom-base-be](https://github.com/AuRoom-Base/auroom-base-be)
 
 ---
 
 <div align="center">
 
-**Built with ❤️ for Lisk Builders Challenge: Round Three**
+**Built with ❤️ on Base Sepolia Network**
 
 [⬆ Back to Top](#-auroom-protocol---smart-contracts)
 

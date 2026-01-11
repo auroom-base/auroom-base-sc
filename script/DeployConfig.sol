@@ -7,12 +7,12 @@ pragma solidity ^0.8.30;
  */
 library DeployConfig {
     // Network identifiers
-    uint256 constant MANTLE_TESTNET_CHAIN_ID = 5003;
-    uint256 constant MANTLE_MAINNET_CHAIN_ID = 5000;
+    uint256 constant BASE_SEPOLIA_CHAIN_ID = 84532;
+    uint256 constant BASE_MAINNET_CHAIN_ID = 8453;
     uint256 constant LOCAL_CHAIN_ID = 31337;
 
     // Initial token amounts
-    uint256 constant INITIAL_IDRX = 1_000_000_000 * 1e18; // 1 billion IDRX
+    uint256 constant INITIAL_IDRX = 1_000_000_000 * 1e6; // 1 billion IDRX
     uint256 constant INITIAL_USDC = 10_000_000 * 1e6;     // 10 million USDC
     uint256 constant INITIAL_XAUT = 100 * 1e6;            // 100 XAUT
 
@@ -22,11 +22,11 @@ library DeployConfig {
      * @return router The Uniswap V2 Router address
      */
     function getUniswapRouter(uint256 chainId) internal pure returns (address router) {
-        if (chainId == MANTLE_TESTNET_CHAIN_ID) {
-            // Mantle Testnet - FusionX V2 Router (Uniswap V2 fork)
-            router = 0x0c9E98B4d1B0a7be7b8066A1e9CF70E5e3F3e5E5; // TODO: Update with actual address
-        } else if (chainId == MANTLE_MAINNET_CHAIN_ID) {
-            // Mantle Mainnet - FusionX V2 Router
+        if (chainId == BASE_SEPOLIA_CHAIN_ID) {
+            // Base Sepolia - Use deployed mock router
+            router = 0x0000000000000000000000000000000000000000; // Fill after deployment
+        } else if (chainId == BASE_MAINNET_CHAIN_ID) {
+            // Base Mainnet - Uniswap V2 Router (if available) or BaseSwap
             router = 0x0000000000000000000000000000000000000000; // TODO: Update with actual address
         } else if (chainId == LOCAL_CHAIN_ID) {
             // Local testnet - deploy mock router or use test address
@@ -42,10 +42,10 @@ library DeployConfig {
      * @return name The network name
      */
     function getNetworkName(uint256 chainId) internal pure returns (string memory name) {
-        if (chainId == MANTLE_TESTNET_CHAIN_ID) {
-            name = "mantle-testnet";
-        } else if (chainId == MANTLE_MAINNET_CHAIN_ID) {
-            name = "mantle-mainnet";
+        if (chainId == BASE_SEPOLIA_CHAIN_ID) {
+            name = "base-sepolia";
+        } else if (chainId == BASE_MAINNET_CHAIN_ID) {
+            name = "base-mainnet";
         } else if (chainId == LOCAL_CHAIN_ID) {
             name = "localhost";
         } else {
@@ -59,6 +59,6 @@ library DeployConfig {
      * @return isTestnet True if testnet
      */
     function isTestnet(uint256 chainId) internal pure returns (bool) {
-        return chainId == MANTLE_TESTNET_CHAIN_ID || chainId == LOCAL_CHAIN_ID;
+        return chainId == BASE_SEPOLIA_CHAIN_ID || chainId == LOCAL_CHAIN_ID;
     }
 }

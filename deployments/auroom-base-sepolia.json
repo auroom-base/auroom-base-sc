@@ -1,0 +1,77 @@
+{
+    "chainId": 84532,
+    "network": "base-sepolia",
+    "timestamp": 1736621100,
+    "lastUpdated": 1736621100,
+    "deployer": "0x742812a2Ff08b76f968dffA7ca6892A428cAeBb1",
+    "contracts": {
+        "MockIDRX": "0x998ceb700e57f535873D189a6b1B7E2aA8C594EB",
+        "MockUSDC": "0xCd88C2886A1958BA36238A070e71B51CF930b44d",
+        "IdentityRegistry": "0xA8F2b8180caFC670f4a24114FDB9c50361038857",
+        "XAUT": "0x56EeDF50c3C4B47Ca9762298B22Cb86468f834FC",
+        "UniswapV2Factory": "0xDb198BEaccC55934062Be9AAEdce332c40A1f1Ed",
+        "UniswapV2Router02": "0x620870d419F6aFca8AFed5B516619aa50900cadc",
+        "PairIDRX_USDC": "",
+        "PairXAUT_USDC": "",
+        "SwapRouter": "0x41c7215F0538200013F428732900bC581015c50e",
+        "BorrowingProtocolV2": "0x3A1229F6D51940DBa65710F9F6ab0296FD56718B"
+    },
+    "dex": {
+        "type": "Mock Uniswap V2",
+        "version": "Solidity 0.8.30",
+        "pairs": {
+            "IDRX/USDC": {
+                "address": "",
+                "token0": "0x998ceb700e57f535873D189a6b1B7E2aA8C594EB",
+                "token1": "0xCd88C2886A1958BA36238A070e71B51CF930b44d",
+                "reserves": {
+                    "IDRX": "1000000000",
+                    "USDC": "60606"
+                },
+                "ratio": "1 USDC = 16,500 IDRX"
+            },
+            "XAUT/USDC": {
+                "address": "",
+                "token0": "0x56EeDF50c3C4B47Ca9762298B22Cb86468f834FC",
+                "token1": "0xCd88C2886A1958BA36238A070e71B51CF930b44d",
+                "reserves": {
+                    "XAUT": "2500",
+                    "USDC": "10000000"
+                },
+                "ratio": "1 XAUT = 4,000 USDC"
+            }
+        }
+    },
+    "borrowingProtocol": {
+        "address": "0x3A1229F6D51940DBa65710F9F6ab0296FD56718B",
+        "version": "V2",
+        "parameters": {
+            "MAX_LTV": 7500,
+            "WARNING_LTV": 8000,
+            "LIQUIDATION_LTV": 9000,
+            "BORROW_FEE": 50
+        },
+        "treasury": "0x742812a2Ff08b76f968dffA7ca6892A428cAeBb1",
+        "initialXAUTPrice": "6600000000000000"
+    },
+    "status": {
+        "MockIDRX": "deployed",
+        "MockUSDC": "deployed",
+        "IdentityRegistry": "deployed",
+        "XAUT": "deployed",
+        "UniswapV2Factory": "deployed",
+        "UniswapV2Router02": "deployed",
+        "PairIDRX_USDC": "pending",
+        "PairXAUT_USDC": "pending",
+        "SwapRouter": "deployed",
+        "BorrowingProtocolV2": "deployed"
+    },
+    "notes": {
+        "deployment_method": "forge + cast",
+        "network_rpc": "https://sepolia.base.org",
+        "explorer": "https://sepolia.basescan.org",
+        "blockscout": "https://base-sepolia.blockscout.com",
+        "dex_type": "Mock Uniswap V2 (Solidity 0.8.30 compatible)",
+        "deployment_date": "2026-01-12"
+    }
+}

@@ -48,7 +48,7 @@ contract GoldVaultTest is Test {
 
         // Deploy Uniswap mocks
         factory = new MockUniswapV2Factory();
-        router = new MockUniswapV2Router02(address(factory), address(0));
+        router = new MockUniswapV2Router02(address(factory));
 
         // Deploy GoldVault
         vault = new GoldVault(
